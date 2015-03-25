@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="CustomButton" parent="AppTheme">
+        <item name="android:background">@drawable/custom_button</item>
+        <item name="android:layout_marginRight">@dimen/marginMedium</item>
+        <item name="android:layout_marginLeft">@dimen/marginMedium</item>
+        <item name="android:textSize">@dimen/textMedium</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginBottom">@dimen/marginButton</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>

@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/background"
+              android:orientation="vertical"
+              android:padding="@dimen/marginButton"
+              tools:context=".MainActivity">
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="@string/judul"
+              android:padding="@dimen/margin"
+              android:id="@+id/titleApp"
+              android:visibility="invisible"
+              android:textColor="@android:color/white"
+              android:textSize="@dimen/textExtraLarge"/>
+    <LinearLayout android:layout_width="400dp"
+                  android:orientation="vertical"
+                  android:layout_gravity="center"
+                  android:id="@+id/menuApp"
+                  android:layout_marginTop="@dimen/marginMedium"
+                  android:layout_height="match_parent">
+        <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mulai"
+                android:visibility="invisible"
+                android:id="@+id/btn_start"
+                style="@style/CustomButton"/>
+    </LinearLayout>
+
+</LinearLayout>

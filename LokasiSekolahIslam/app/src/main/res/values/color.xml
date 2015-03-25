@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="green">#00A99D</color>
+    <color name="shadowButton">#037F73</color>
+    <color name="click">#E2E2E2</color>
+</resources>

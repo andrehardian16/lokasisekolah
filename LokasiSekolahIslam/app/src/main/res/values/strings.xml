@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lokasi Sekolah Islam</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">search</string>
+    <string name="title_activity_guide">Petunjuk</string>
+    <string name="title_activity_about">Tentang</string>
+    <string name="title_activity_menu_utama">Menu Utama</string>
+    <string name="title_activity_location">Lokasi</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="search">Search</string>
+    <string name="tap">Tap to select school</string>
+
+    <string name="mulai">Mulai</string>
+    <string name="judul">LOKASI SEKOLAH ISLAM</string>
+    <string name="icon_time_circle">\uf057</string>
+    <string name="icon_search">\uf002</string>
+
+    <string-array name="menu">
+        <item>Madrasah Aliyah</item>
+        <item>Madrasah Diniyah Takmiliya</item>
+        <item>Madrasah Ibtdaiyah</item>
+        <item>Perguruan Tinggi Islam</item>
+        <item>Pondok Pesantren</item>
+        <item>Raudhatul Atfal</item>
+    </string-array>
+
+</resources>
