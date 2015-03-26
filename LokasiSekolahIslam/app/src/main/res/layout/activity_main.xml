@@ -15,18 +15,31 @@
               android:visibility="invisible"
               android:textColor="@android:color/white"
               android:textSize="@dimen/textExtraLarge"/>
-    <LinearLayout android:layout_width="400dp"
-                  android:orientation="vertical"
-                  android:layout_gravity="center"
-                  android:id="@+id/menuApp"
-                  android:layout_marginTop="@dimen/marginMedium"
-                  android:layout_height="match_parent">
+<LinearLayout android:layout_width="400dp"
+              android:orientation="vertical"
+              android:layout_gravity="center"
+              android:visibility="invisible"
+              android:id="@+id/menu"
+              android:layout_height="wrap_content">
         <Button android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/mulai"
-                android:visibility="invisible"
+                android:layout_marginTop="5dp"
                 android:id="@+id/btn_start"
                 style="@style/CustomButton"/>
-    </LinearLayout>
 
+        <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about"
+                android:layout_marginTop="5dp"
+                android:id="@+id/btn_about"
+                style="@style/CustomButton"/>
+
+        <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin"
+                android:text="@string/guide"
+                android:id="@+id/btn_guide"
+                style="@style/CustomButton"/>
+    </LinearLayout>
 </LinearLayout>

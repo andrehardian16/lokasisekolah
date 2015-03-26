@@ -15,17 +15,23 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:gravity="center"
-                android:textSize="@dimen/textLarge"
+                android:textSize="@dimen/textMedium"
                 android:id="@+id/btn_search"
                 android:textColor="@android:color/white"
                 android:background="@drawable/custom_background"
                 android:text="@string/icon_search"
                 android:layout_marginRight="@dimen/margin"/>
     </android.support.v7.widget.Toolbar>
-
+    <EditText android:layout_width="match_parent"
+              android:padding="3dp"
+              android:id="@+id/sortir"
+              android:hint="@string/sortir"
+              android:textColor="@color/click"
+              android:layout_height="wrap_content"/>
 
     <LinearLayout android:layout_width="match_parent"
                   android:orientation="horizontal"
+                  android:padding="3dp"
                   android:layout_height="match_parent">
         <FrameLayout android:layout_width="0dp"
                      android:layout_weight="1"
@@ -38,11 +44,25 @@
                   style="?attr/dividerVertical"
                   android:layout_height="match_parent"></View>
         </LinearLayout>
-        <android.support.v4.view.ViewPager
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:id="@+id/detailSchool"
-                android:layout_height="match_parent"></android.support.v4.view.ViewPager>
-    </LinearLayout>
 
+            <LinearLayout android:layout_width="0dp"
+                          android:layout_weight="1"
+                          android:paddingLeft="@dimen/margin"
+                          android:paddingRight="@dimen/margin"
+                          android:layout_height="match_parent"
+                          android:orientation="vertical">
+                <fragment
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:id="@+id/map"
+                        tools:context="com.andre.lokasisekolahislam.app.views.activity.LocationSchool"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+                <android.support.v4.view.ViewPager
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/detailSchool"
+                        android:layout_height="0dp"></android.support.v4.view.ViewPager>
+            </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

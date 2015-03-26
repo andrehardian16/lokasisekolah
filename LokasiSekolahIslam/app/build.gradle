@@ -15,8 +15,8 @@ apply plugin: 'android-apt'
 repositories {
     jcenter()
 }
-apt{
-    arguments{
+apt {
+    arguments {
         androidManifestFile variant.outputs[0].processResources.manifestFile
         resourcesPakcageName 'com.andre.lokasisekolahislam.app'
     }

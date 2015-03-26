@@ -1,21 +1,21 @@
 package com.andre.lokasisekolahislam.app.views.activity;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Adapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ListView;
+import android.widget.EditText;
 import com.andre.lokasisekolahislam.app.R;
 import com.andre.lokasisekolahislam.app.controls.adapter.AdapterDetail;
 import com.andre.lokasisekolahislam.app.controls.adapter.AdapterList;
@@ -26,7 +26,6 @@ import com.andre.lokasisekolahislam.app.controls.interfaceClass.OnCallList;
 import com.andre.lokasisekolahislam.app.controls.utils.ReadFont;
 import com.andre.lokasisekolahislam.app.models.BaseModel;
 import com.andre.lokasisekolahislam.app.views.dialog.DialogSearch;
-import com.andre.lokasisekolahislam.app.views.fragment.DetailFragment;
 import com.andre.lokasisekolahislam.app.views.fragment.ListDataSchool;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,10 +39,8 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
-@EActivity(R.layout.activity_location)
-public class Location extends ActionBarActivity implements OnCallList, OnCallDetail, ViewPager.OnPageChangeListener {
-    private AdapterDetail adapterDetail;
-    private GoogleMap mMap;
+@EActivity(R.layout.activity_location_school)
+public class LocationSchool extends ActionBarActivity implements ViewPager.OnPageChangeListener,OnCallDetail,OnCallList, TextWatcher {
     private int pos;
     private OnCallDetail listener;
     @ViewById
@@ -52,9 +49,19 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
     Button btnSearch;
     @ViewById
     ViewPager detailSchool;
+    @ViewById
+    EditText sortir;
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     @AfterViews
@@ -65,6 +72,8 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
         setSupportActionBar(tool_bar_location);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         btnSearch.setTypeface(readFont.fontAwesome());
+        sortir.setTypeface(readFont.fontHelvLight());
+        sortir.addTextChangedListener(this);
     }
 
     @Override
@@ -102,7 +111,7 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
     public void onCallList(int pos) {
         detailSchool.setCurrentItem(pos);
         AdapterDetail adapterDetail1 = (AdapterDetail) detailSchool.getAdapter();
-        setupMap(adapterDetail1.getItemData(pos));
+        setUpMap(adapterDetail1.getItemData(pos));
     }
 
     public void getData(String option) {
@@ -120,7 +129,7 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
 
                 @Override
                 protected void onPreExecute() {
-                    progressDialog = new ProgressDialog(Location.this);
+                    progressDialog = new ProgressDialog(LocationSchool.this);
                     progressDialog.show();
                     super.onPreExecute();
                 }
@@ -144,7 +153,7 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
 
                 @Override
                 protected void onPreExecute() {
-                    progressDialog = new ProgressDialog(Location.this);
+                    progressDialog = new ProgressDialog(LocationSchool.this);
                     progressDialog.show();
                     super.onPreExecute();
                 }
@@ -169,7 +178,7 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
 
                 @Override
                 protected void onPreExecute() {
-                    progressDialog = new ProgressDialog(Location.this);
+                    progressDialog = new ProgressDialog(LocationSchool.this);
                     progressDialog.show();
                     super.onPreExecute();
                 }
@@ -194,7 +203,7 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
 
                 @Override
                 protected void onPreExecute() {
-                    progressDialog = new ProgressDialog(Location.this);
+                    progressDialog = new ProgressDialog(LocationSchool.this);
                     progressDialog.show();
                     super.onPreExecute();
                 }
@@ -219,7 +228,7 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
 
                 @Override
                 protected void onPreExecute() {
-                    progressDialog = new ProgressDialog(Location.this);
+                    progressDialog = new ProgressDialog(LocationSchool.this);
                     progressDialog.show();
                     super.onPreExecute();
                 }
@@ -244,7 +253,7 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
 
                 @Override
                 protected void onPreExecute() {
-                    progressDialog = new ProgressDialog(Location.this);
+                    progressDialog = new ProgressDialog(LocationSchool.this);
                     progressDialog.show();
                     super.onPreExecute();
                 }
@@ -253,7 +262,7 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
                 protected void onPostExecute(ArrayList<BaseModel> baseModels) {
                     progressDialog.dismiss();
                     if (baseModels != null && baseModels.size() != 0) {
-                       setSchool(baseModels);
+                        setSchool(baseModels);
                     }
                 }
             }.execute();
@@ -263,22 +272,19 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
     private void setSchool(ArrayList<BaseModel> baseModels) {
         getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().
                 instance(baseModels)).commit();
-
-        adapterDetail = new AdapterDetail(getSupportFragmentManager(),this,baseModels);
+        AdapterDetail adapterDetail = new AdapterDetail(getSupportFragmentManager(),this,baseModels);
         detailSchool.setAdapter(adapterDetail);
         detailSchool.setCurrentItem(pos);
         detailSchool.setOnPageChangeListener(this);
-//        setupMapIfNeed(baseModels.get(pos));
+        setUpMapIfNeeded(baseModels.get(pos));
         /*getSupportFragmentManager().beginTransaction().replace(R.id.detailSchool, new DetailFragment().
                 instance(baseModels)).commit();*/
     }
 
     @Click(R.id.btn_search)
     protected void search(){
-/*
-        DialogSearch dialogSearch = new DialogSearch(this,Location.this);
+        DialogSearch dialogSearch = new DialogSearch(this,LocationSchool.this);
         dialogSearch.dialogSearch();
-*/
     }
 
     @Override
@@ -288,27 +294,76 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
 
     @Override
     public void onPageSelected(int position) {
-        listener = (OnCallDetail) Location.this;
+        listener = (OnCallDetail) LocationSchool.this;
         listener.onCallDetail(position);
+        AdapterDetail adapterDetail1 = (AdapterDetail)detailSchool.getAdapter();
+        setUpMap(adapterDetail1.getItemData(position));
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
     }
-    private void setupMapIfNeed(BaseModel baseModel) {
+
+
+    /**
+     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
+     * installed) and the map has not already been instantiated.. This will ensure that we only ever
+     * call {@link #setUpMap()} once when {@link #mMap} is not null.
+     * <p/>
+     * If it isn't installed {@link SupportMapFragment} (and
+     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
+     * install/update the Google Play services APK on their device.
+     * <p/>
+     * A user can return to this FragmentActivity after following the prompt and correctly
+     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
+     * have been completely destroyed during this process (it is likely that it would only be
+     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
+     * method in {@link #onResume()} to guarantee that it will be called.
+     */
+    private void setUpMapIfNeeded(BaseModel baseModel) {
+        // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
-//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-//                    .getMap();
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                    .getMap();
+            // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setupMap(baseModel);
+                setUpMap(baseModel);
             }
         }
     }
-    private void setupMap(BaseModel baseModel) {
+
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
+     * just add a marker near Africa.
+     * <p/>
+     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     */
+    private void setUpMap(BaseModel baseModel) {
+        mMap.clear();
         LatLng latLng = new LatLng(baseModel.getLatitude(),baseModel.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         mMap.addMarker(new MarkerOptions().position(latLng).title(baseModel.getNamaInstitusi()));
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+       /* if (detailSchool.getAdapter() != null && detailSchool.getAdapter().getCount() != 0) {
+            AdapterDetail adapterDetail1 = (AdapterDetail) detailSchool.getAdapter();
+            adapterDetail1.filter(s.toString());
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().filter(s))
+                .commit();*/
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 }

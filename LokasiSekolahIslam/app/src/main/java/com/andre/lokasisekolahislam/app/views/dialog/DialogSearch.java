@@ -11,6 +11,7 @@ import com.andre.lokasisekolahislam.app.R;
 import com.andre.lokasisekolahislam.app.controls.adapter.AdapterMenuDialog;
 import com.andre.lokasisekolahislam.app.controls.utils.ReadFont;
 import com.andre.lokasisekolahislam.app.views.activity.Location;
+import com.andre.lokasisekolahislam.app.views.activity.LocationSchool;
 
 import java.util.ArrayList;
 
@@ -19,9 +20,9 @@ import java.util.ArrayList;
  */
 public class DialogSearch {
     private final Context context;
-    private final Location activity;
+    private final LocationSchool activity;
 
-    public DialogSearch(Context context, Location activity) {
+    public DialogSearch(Context context, LocationSchool activity) {
         this.context = context;
         this.activity = activity;
     }

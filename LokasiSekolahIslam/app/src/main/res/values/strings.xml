@@ -13,11 +13,13 @@
     <string name="title_activity_maps">Map</string>
     <string name="search">Search</string>
     <string name="tap">Tap to select school</string>
-
     <string name="mulai">Mulai</string>
+    <string name="about">Tentang</string>
+    <string name="guide">Petunjuk</string>
     <string name="judul">LOKASI SEKOLAH ISLAM</string>
     <string name="icon_time_circle">\uf057</string>
     <string name="icon_search">\uf002</string>
+    <string name="sortir">masukkan nama instansi</string>
 
     <string-array name="menu">
         <item>Madrasah Aliyah</item>
@@ -27,5 +29,9 @@
         <item>Pondok Pesantren</item>
         <item>Raudhatul Atfal</item>
     </string-array>
+
+    <string name="title_activity_location_school">Map</string>
+    <string name="about_title">LOKASI SEKOLAH ISLAM</string>
+    <string name="about_app">aplikasi ini digunakan untuk mempermudah mencari lokasi sekolah islam di indonesia dengan menggunakan map agar dapat menuju lokasi yang dituju dari lokasi tempat berada</string>
 
 </resources>

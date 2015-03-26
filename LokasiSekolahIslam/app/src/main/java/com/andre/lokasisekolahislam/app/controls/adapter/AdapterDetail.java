@@ -1,13 +1,17 @@
 package com.andre.lokasisekolahislam.app.controls.adapter;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import com.andre.lokasisekolahislam.app.R;
 import com.andre.lokasisekolahislam.app.models.BaseModel;
@@ -23,16 +27,18 @@ import java.util.ArrayList;
 /**
  * Created by Andre on 3/17/2015.
  */
-public class AdapterDetail extends PagerAdapter{
+public class AdapterDetail extends FragmentStatePagerAdapter {
     private final Context context;
     private final ArrayList<BaseModel> detailData;
-    private final DetailFragment detailFragment;
-    private GoogleMap mMap;
+    private final ArrayList<BaseModel> listFilter;
 
-    public AdapterDetail(Context context, ArrayList<BaseModel> detailData, DetailFragment detailFragment) {
+
+    public AdapterDetail(FragmentManager fragmentManager, Context context, ArrayList<BaseModel> detailData) {
+        super(fragmentManager);
         this.context = context;
         this.detailData = detailData;
-        this.detailFragment = detailFragment;
+        listFilter = new ArrayList<BaseModel>();
+        listFilter.addAll(detailData);
     }
 
 
@@ -41,26 +47,48 @@ public class AdapterDetail extends PagerAdapter{
         return detailData.size();
     }
 
+
     @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view ==(LinearLayout)object;
+    public int getItemPosition(Object object) {
+        return super.getItemPosition(object);
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.activity_maps,container,false);
-        setupMapIfNeed(position);
-        ((ViewPager)container).addView(view);
-        return view;
+    public Fragment getItem(int position) {
+        DetailFragment detailFragment = DetailFragment.instance(detailData.get(position));
+        return detailFragment;
+    }
+
+    public BaseModel getItemData(int position) {
+        return detailData.get(position);
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, final int position) {
+        DetailFragment detailFragment = (DetailFragment) super.instantiateItem(container, position);
+        return detailFragment;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        ((ViewPager)container).removeView((FrameLayout)object);
+        super.destroyItem(container, position, object);
     }
 
-    private void setupMapIfNeed(int pos) {
+    public void filter(String charSequence) {
+        detailData.clear();
+        if (charSequence == null && charSequence.length() == 0) {
+            detailData.addAll(listFilter);
+            notifyDataSetChanged();
+        } else if (charSequence != null && charSequence.length() != 0) {
+            for (BaseModel baseModel : listFilter) {
+                if (baseModel.getNamaInstitusi().toLowerCase().equals(charSequence.toLowerCase())) ;
+                detailData.add(baseModel);
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /*private void setupMapIfNeed(int pos) {
         if (mMap == null) {
             mMap = ((SupportMapFragment) detailFragment.getActivity().getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
@@ -68,14 +96,7 @@ public class AdapterDetail extends PagerAdapter{
                 setupMap(pos);
             }
         }
-    }
-
-    private void setupMap(int position) {
-        LatLng latLng = new LatLng(detailData.get(position).getLatitude(),detailData.get(position).getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,20));
-        mMap.addMarker(new MarkerOptions().position(latLng).title(detailData.get(position).getNamaInstitusi()));
-
-    }
+    }*/
 
 
 }

@@ -20,8 +20,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".views.activity.MainActivity_"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,27 +30,35 @@
         </activity>
         <activity
             android:name=".views.activity.Guide"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_guide" >
+            android:label="@string/title_activity_guide"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".views.activity.About"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_about" >
+            android:name=".views.activity.About_"
+            android:label="@string/title_activity_about"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".views.activity.Location_"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_location" >
+            android:label="@string/title_activity_location"
+            android:screenOrientation="landscape" >
         </activity>
 
         <meta-data
-            android:name="com.google.anfrfdroid.gms.version"
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.AP I_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".views.activity.LocationSchool_"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_location_school" >
+        </activity>
     </application>
 
 </manifest>

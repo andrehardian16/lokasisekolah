@@ -6,6 +6,8 @@
 
     <ListView android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:listSelector="@drawable/custom_background_list"
+              android:background="@android:color/transparent"
               android:id="@+id/listData"></ListView>
 
 </FrameLayout>
