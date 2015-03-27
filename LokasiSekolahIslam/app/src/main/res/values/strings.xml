@@ -19,7 +19,7 @@
     <string name="judul">LOKASI SEKOLAH ISLAM</string>
     <string name="icon_time_circle">\uf057</string>
     <string name="icon_search">\uf002</string>
-    <string name="sortir">masukkan nama instansi</string>
+    <string name="sortir">sortir dengan nama instansi</string>
 
     <string-array name="menu">
         <item>Madrasah Aliyah</item>
@@ -34,4 +34,11 @@
     <string name="about_title">LOKASI SEKOLAH ISLAM</string>
     <string name="about_app">aplikasi ini digunakan untuk mempermudah mencari lokasi sekolah islam di indonesia dengan menggunakan map agar dapat menuju lokasi yang dituju dari lokasi tempat berada</string>
 
+    <string name="guide1">pada halaman utama \n
+        tekan tombol search untuk menampilkan dialog search\.</string>
+    <string name="guide2">sentuh tulisan Tap to select school untuk memilih tipe sekolah\.</string>
+    <string name="guide3">ketik ok untuk melanjutkan mengambil data\.</string>
+    <string name="guide4">pada alamat yang berada di bawah peta dapat di geser ke kanan dan ke kiri untuk data selanjutnya\.</string>
+    <string name="guide5">pada list sebelah kiri dapat di sentuh untuk menampilkan data detil pada sebelah kanan\.</string>
+    <string name="guide6">pada tanda panah map jika disentuh maka akan menampilkan nama institusi dan juga tombol untuk membuat rute dari lokasi user berada hingga ke sekolah tersebut\.</string>
 </resources>

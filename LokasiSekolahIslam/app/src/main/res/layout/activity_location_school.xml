@@ -23,9 +23,9 @@
                 android:layout_marginRight="@dimen/margin"/>
     </android.support.v7.widget.Toolbar>
     <EditText android:layout_width="match_parent"
-              android:padding="3dp"
+              android:padding="5dp"
               android:id="@+id/sortir"
-              android:hint="@string/sortir"
+              android:textColorHint="@color/click"
               android:textColor="@color/click"
               android:layout_height="wrap_content"/>
 

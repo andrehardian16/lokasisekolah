@@ -74,6 +74,7 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
         btnSearch.setTypeface(readFont.fontAwesome());
         sortir.setTypeface(readFont.fontHelvLight());
         sortir.addTextChangedListener(this);
+        sortir.setEnabled(false);
     }
 
     @Override
@@ -273,10 +274,15 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
         getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().
                 instance(baseModels)).commit();
         AdapterDetail adapterDetail = new AdapterDetail(getSupportFragmentManager(),this,baseModels);
+        adapterDetail.notifyDataSetChanged();
         detailSchool.setAdapter(adapterDetail);
         detailSchool.setCurrentItem(pos);
         detailSchool.setOnPageChangeListener(this);
-        setUpMapIfNeeded(baseModels.get(pos));
+        if (baseModels.size() != 0) {
+            setUpMapIfNeeded(baseModels.get(pos));
+        }
+        sortir.setEnabled(true);
+        sortir.setHint(R.string.sortir);
         /*getSupportFragmentManager().beginTransaction().replace(R.id.detailSchool, new DetailFragment().
                 instance(baseModels)).commit();*/
     }
@@ -354,12 +360,12 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-       /* if (detailSchool.getAdapter() != null && detailSchool.getAdapter().getCount() != 0) {
+//        if (detailSchool.getAdapter() != null && detailSchool.getAdapter().getCount() != 0) {
             AdapterDetail adapterDetail1 = (AdapterDetail) detailSchool.getAdapter();
-            adapterDetail1.filter(s.toString());
-        }
+            adapterDetail1.filter(s);
+//        }
         getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().filter(s))
-                .commit();*/
+                .commit();
     }
 
     @Override

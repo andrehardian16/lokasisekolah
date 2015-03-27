@@ -31,6 +31,7 @@ public class AdapterDetail extends FragmentStatePagerAdapter {
     private final Context context;
     private final ArrayList<BaseModel> detailData;
     private final ArrayList<BaseModel> listFilter;
+    private DetailFragment detailFragment;
 
 
     public AdapterDetail(FragmentManager fragmentManager, Context context, ArrayList<BaseModel> detailData) {
@@ -44,8 +45,13 @@ public class AdapterDetail extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return detailData.size();
+        if (detailData != null) {
+            return detailData.size();
+        }else {
+            return 0;
+        }
     }
+
 
 
     @Override
@@ -65,7 +71,7 @@ public class AdapterDetail extends FragmentStatePagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        DetailFragment detailFragment = (DetailFragment) super.instantiateItem(container, position);
+        detailFragment = (DetailFragment) super.instantiateItem(container, position);
         return detailFragment;
     }
 
@@ -74,15 +80,22 @@ public class AdapterDetail extends FragmentStatePagerAdapter {
         super.destroyItem(container, position, object);
     }
 
-    public void filter(String charSequence) {
-        detailData.clear();
-        if (charSequence == null && charSequence.length() == 0) {
-            detailData.addAll(listFilter);
+    public void filter(CharSequence charSequence) {
+        if (detailData != null) {
+            detailData.clear();
             notifyDataSetChanged();
-        } else if (charSequence != null && charSequence.length() != 0) {
-            for (BaseModel baseModel : listFilter) {
-                if (baseModel.getNamaInstitusi().toLowerCase().equals(charSequence.toLowerCase())) ;
-                detailData.add(baseModel);
+        }
+
+        if (listFilter != null) {
+            if (charSequence != null && charSequence.length() != 0) {
+                for (BaseModel baseModel : listFilter) {
+                    if (baseModel.getNamaInstitusi().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        detailData.add(baseModel);
+                    }
+                    notifyDataSetChanged();
+                }
+            } else {
+                detailData.addAll(listFilter);
                 notifyDataSetChanged();
             }
         }

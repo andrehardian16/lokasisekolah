@@ -38,7 +38,11 @@ public class AdapterList extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return dataList.size();
+        if (dataList != null) {
+            return dataList.size();
+        }else {
+            return 0;
+        }
     }
 
     @Override
@@ -55,13 +59,13 @@ public class AdapterList extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = layoutInflater.inflate(R.layout.adapter_list, parent, false);
-            ViewHolder holder = new ViewHolder();
-            holder.textList = (TextView) convertView.findViewById(R.id.textList);
-            if (dataList != null && dataList.size() != 0) {
-                holder.textList.setText(dataList.get(position).getNamaInstitusi());
-                ReadFont readFont = new ReadFont(context);
-                holder.textList.setTypeface(readFont.fontHelvLight());
-            }
+        ViewHolder holder = new ViewHolder();
+        holder.textList = (TextView) convertView.findViewById(R.id.textList);
+        if (dataList != null && dataList.size() != 0) {
+            holder.textList.setText(dataList.get(position).getNamaInstitusi());
+            ReadFont readFont = new ReadFont(context);
+            holder.textList.setTypeface(readFont.fontHelvLight());
+        }
         return convertView;
     }
 
@@ -69,15 +73,21 @@ public class AdapterList extends BaseAdapter {
         TextView textList;
     }
 
-    public void filter(String charSequence){
-        dataList.clear();
-        if (charSequence == null){
-            dataList.addAll(listFilter);
+    public void filter(CharSequence charSequence) {
+        if (dataList != null) {
+            dataList.clear();
             notifyDataSetChanged();
-        } else if (charSequence != null && charSequence.length() != 0){
-            for (BaseModel baseModel : listFilter){
-                if (baseModel.getNamaInstitusi().toLowerCase().trim().equals(charSequence.toLowerCase().trim()));
-                dataList.add(baseModel);
+        }
+        if (listFilter != null) {
+            if (charSequence != null && charSequence.length() != 0) {
+                for (BaseModel baseModel : listFilter) {
+                    if (baseModel.getNamaInstitusi().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        dataList.add(baseModel);
+                    }
+                    notifyDataSetChanged();
+                }
+            } else {
+                dataList.addAll(listFilter);
                 notifyDataSetChanged();
             }
         }

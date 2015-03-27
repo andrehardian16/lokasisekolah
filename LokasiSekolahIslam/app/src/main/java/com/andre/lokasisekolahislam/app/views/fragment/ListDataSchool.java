@@ -30,7 +30,7 @@ public class ListDataSchool extends Fragment implements AdapterView.OnItemClickL
     private static ArrayList<BaseModel> listSchoolData;
     private AdapterList adapterList;
     private static int pos;
-    private static String sort;
+    private static CharSequence sort;
 
     public static ListDataSchool instance(ArrayList<BaseModel> list) {
         ListDataSchool listDataSchool = new ListDataSchool();
@@ -46,7 +46,7 @@ public class ListDataSchool extends Fragment implements AdapterView.OnItemClickL
 
     public static ListDataSchool filter(CharSequence charSequence) {
         ListDataSchool listDataSchool = new ListDataSchool();
-        sort = charSequence.toString();
+        sort = charSequence;
         return listDataSchool;
     }
 
@@ -62,12 +62,13 @@ public class ListDataSchool extends Fragment implements AdapterView.OnItemClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         adapterList = new AdapterList(getActivity(), listSchoolData);
-        if (adapterList != null) {
+        adapterList.notifyDataSetChanged();
+//        if (adapterList != null) {
             listData.setAdapter(adapterList);
             listData.setSelection(pos);
             listData.setOnItemClickListener(this);
-                adapterList.filter(sort);
-        }
+            adapterList.filter(sort);
+//        }
     }
 
     @Override

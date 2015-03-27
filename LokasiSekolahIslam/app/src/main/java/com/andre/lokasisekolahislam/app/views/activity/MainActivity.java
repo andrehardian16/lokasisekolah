@@ -94,4 +94,11 @@ public class MainActivity extends ActionBarActivity {
         startActivity(about);
         finish();
     }
+
+    @Click(R.id.btn_guide)
+    protected void guide(){
+        Intent guide = new Intent(this,Guide_.class);
+        startActivity(guide);
+        finish();
+    }
 }
