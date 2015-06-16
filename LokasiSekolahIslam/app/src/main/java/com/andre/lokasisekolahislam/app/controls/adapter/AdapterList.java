@@ -2,6 +2,7 @@ package com.andre.lokasisekolahislam.app.controls.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ public class AdapterList extends BaseAdapter {
     public int getCount() {
         if (dataList != null) {
             return dataList.size();
-        }else {
+        } else {
             return 0;
         }
     }
@@ -73,19 +74,35 @@ public class AdapterList extends BaseAdapter {
         TextView textList;
     }
 
-    public void filter(CharSequence charSequence) {
+    public void filter(final CharSequence charSequence) {
         if (dataList != null) {
             dataList.clear();
             notifyDataSetChanged();
         }
+
         if (listFilter != null) {
             if (charSequence != null && charSequence.length() != 0) {
-                for (BaseModel baseModel : listFilter) {
-                    if (baseModel.getNamaInstitusi().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                        dataList.add(baseModel);
+                new AsyncTask<Void, Void, ArrayList<BaseModel>>() {
+                    @Override
+                    protected ArrayList<BaseModel> doInBackground(Void... params) {
+                        ArrayList<BaseModel> baseModels = new ArrayList<BaseModel>();
+
+                        for (BaseModel baseModel : listFilter) {
+                            if (baseModel.getNamaInstitusi().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                baseModels.add(baseModel);
+                            }
+                        }
+                        return baseModels;
                     }
-                    notifyDataSetChanged();
-                }
+
+                    @Override
+                    protected void onPostExecute(ArrayList<BaseModel> baseModels) {
+                        if (baseModels != null) {
+                            dataList.addAll(baseModels);
+                            notifyDataSetChanged();
+                        }
+                    }
+                }.execute();
             } else {
                 dataList.addAll(listFilter);
                 notifyDataSetChanged();

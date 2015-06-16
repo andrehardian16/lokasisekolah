@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -94,8 +95,9 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
 
     @Override
     public void onCallDetail(int pos) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().newInstance(pos))
-                .commit();
+/*        getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().newInstance(pos))
+                .commit();*/
+        new ListDataSchool().newInstance(pos);
     }
 
     @Override
@@ -264,7 +266,7 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
         getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().
                 instance(baseModels)).commit();
 
-        adapterDetail = new AdapterDetail(getSupportFragmentManager(),this,baseModels);
+        adapterDetail = new AdapterDetail(this,baseModels);
         detailSchool.setAdapter(adapterDetail);
         detailSchool.setCurrentItem(pos);
         detailSchool.setOnPageChangeListener(this);
@@ -294,7 +296,6 @@ public class Location extends ActionBarActivity implements OnCallList, OnCallDet
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
     }
     private void setupMapIfNeed(BaseModel baseModel) {
         if (mMap == null) {

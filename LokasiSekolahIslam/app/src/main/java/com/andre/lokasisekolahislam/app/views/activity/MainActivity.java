@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.andre.lokasisekolahislam.app.R;
+import com.andre.lokasisekolahislam.app.controls.session.SessionApp;
 import com.andre.lokasisekolahislam.app.controls.utils.ReadFont;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -47,7 +48,14 @@ public class MainActivity extends ActionBarActivity {
         btnStart.setTypeface(readFont.fontSorsod());
         btnGuide.setTypeface(readFont.fontSorsod());
         btnAbout.setTypeface(readFont.fontSorsod());
-        animationStart();
+        SessionApp sessionApp = new SessionApp(this);
+        if (sessionApp.getSession()!= null){
+            sessionApp.setSession("add session");
+            animationStart();
+        }else{
+            titleApp.setVisibility(View.VISIBLE);
+            menu.setVisibility(View.VISIBLE);
+        }
     }
 
     private void animationMenu(){
@@ -100,5 +108,11 @@ public class MainActivity extends ActionBarActivity {
         Intent guide = new Intent(this,Guide_.class);
         startActivity(guide);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new SessionApp(this).clearSession();
     }
 }

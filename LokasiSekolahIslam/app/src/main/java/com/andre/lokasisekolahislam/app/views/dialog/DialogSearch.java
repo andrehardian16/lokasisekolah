@@ -10,7 +10,6 @@ import android.widget.*;
 import com.andre.lokasisekolahislam.app.R;
 import com.andre.lokasisekolahislam.app.controls.adapter.AdapterMenuDialog;
 import com.andre.lokasisekolahislam.app.controls.utils.ReadFont;
-import com.andre.lokasisekolahislam.app.views.activity.Location;
 import com.andre.lokasisekolahislam.app.views.activity.LocationSchool;
 
 import java.util.ArrayList;

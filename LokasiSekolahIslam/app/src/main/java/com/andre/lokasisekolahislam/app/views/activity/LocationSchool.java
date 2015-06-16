@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
@@ -23,6 +24,7 @@ import com.andre.lokasisekolahislam.app.controls.dbGetData.AllData;
 import com.andre.lokasisekolahislam.app.controls.helperDb.DbHelper;
 import com.andre.lokasisekolahislam.app.controls.interfaceClass.OnCallDetail;
 import com.andre.lokasisekolahislam.app.controls.interfaceClass.OnCallList;
+import com.andre.lokasisekolahislam.app.controls.session.SessionApp;
 import com.andre.lokasisekolahislam.app.controls.utils.ReadFont;
 import com.andre.lokasisekolahislam.app.models.BaseModel;
 import com.andre.lokasisekolahislam.app.views.dialog.DialogSearch;
@@ -40,8 +42,8 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_location_school)
-public class LocationSchool extends ActionBarActivity implements ViewPager.OnPageChangeListener,OnCallDetail,OnCallList, TextWatcher {
-    private int pos;
+public class LocationSchool extends ActionBarActivity implements ViewPager.OnPageChangeListener, OnCallDetail, OnCallList, TextWatcher {
+    private int positionPager;
     private OnCallDetail listener;
     @ViewById
     Toolbar tool_bar_location;
@@ -56,6 +58,7 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        listener = (OnCallDetail) LocationSchool.this;
     }
 
     @Override
@@ -104,12 +107,15 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
 
     @Override
     public void onCallDetail(int pos) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().newInstance(pos))
-                .commit();
+        if (positionPager != pos) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().newInstance(pos))
+                    .commit();
+        }
     }
 
     @Override
     public void onCallList(int pos) {
+        positionPager = pos;
         detailSchool.setCurrentItem(pos);
         AdapterDetail adapterDetail1 = (AdapterDetail) detailSchool.getAdapter();
         setUpMap(adapterDetail1.getItemData(pos));
@@ -273,13 +279,13 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
     private void setSchool(ArrayList<BaseModel> baseModels) {
         getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().
                 instance(baseModels)).commit();
-        AdapterDetail adapterDetail = new AdapterDetail(getSupportFragmentManager(),this,baseModels);
+        AdapterDetail adapterDetail = new AdapterDetail(this, baseModels);
         adapterDetail.notifyDataSetChanged();
         detailSchool.setAdapter(adapterDetail);
-        detailSchool.setCurrentItem(pos);
+        detailSchool.setCurrentItem(positionPager);
         detailSchool.setOnPageChangeListener(this);
         if (baseModels.size() != 0) {
-            setUpMapIfNeeded(baseModels.get(pos));
+            setUpMapIfNeeded(baseModels.get(positionPager));
         }
         sortir.setEnabled(true);
         sortir.setHint(R.string.sortir);
@@ -288,7 +294,7 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
     }
 
     @Click(R.id.btn_search)
-    protected void search(){
+    protected void search() {
         DialogSearch dialogSearch = new DialogSearch(this,LocationSchool.this);
         dialogSearch.dialogSearch();
     }
@@ -300,10 +306,10 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int position) {
-        listener = (OnCallDetail) LocationSchool.this;
         listener.onCallDetail(position);
-        AdapterDetail adapterDetail1 = (AdapterDetail)detailSchool.getAdapter();
+        AdapterDetail adapterDetail1 = (AdapterDetail) detailSchool.getAdapter();
         setUpMap(adapterDetail1.getItemData(position));
+        Log.v("filter",""+position);
     }
 
     @Override
@@ -348,7 +354,7 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
      */
     private void setUpMap(BaseModel baseModel) {
         mMap.clear();
-        LatLng latLng = new LatLng(baseModel.getLatitude(),baseModel.getLongitude());
+        LatLng latLng = new LatLng(baseModel.getLatitude(), baseModel.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         mMap.addMarker(new MarkerOptions().position(latLng).title(baseModel.getNamaInstitusi()));
     }
@@ -361,8 +367,7 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 //        if (detailSchool.getAdapter() != null && detailSchool.getAdapter().getCount() != 0) {
-            AdapterDetail adapterDetail1 = (AdapterDetail) detailSchool.getAdapter();
-            adapterDetail1.filter(s);
+        ((AdapterDetail) detailSchool.getAdapter()).filter(s);
 //        }
         getSupportFragmentManager().beginTransaction().replace(R.id.listSchool, new ListDataSchool().filter(s))
                 .commit();
@@ -370,6 +375,7 @@ public class LocationSchool extends ActionBarActivity implements ViewPager.OnPag
 
     @Override
     public void afterTextChanged(Editable s) {
-
+        detailSchool.setCurrentItem(0);
+        onCallDetail(0);
     }
 }

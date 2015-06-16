@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,18 +63,14 @@ public class ListDataSchool extends Fragment implements AdapterView.OnItemClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         adapterList = new AdapterList(getActivity(), listSchoolData);
-        adapterList.notifyDataSetChanged();
-//        if (adapterList != null) {
-            listData.setAdapter(adapterList);
-            listData.setSelection(pos);
-            listData.setOnItemClickListener(this);
-            adapterList.filter(sort);
-//        }
+        Log.v("filter",listSchoolData.size()+"");
+        listData.setAdapter(adapterList);
+        listData.setSelection(pos);
+        listData.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        BaseModel baseModel = (BaseModel) listData.getAdapter().getItem(position);
         listener.onCallList(position);
     }
 
